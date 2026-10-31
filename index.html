@@ -15,9 +15,39 @@
   <main>
     <!-- Aquí va a ir el formulario de crear expediente -->
     <section id="crear-expediente">
-      <h2>Abrir nuevo expediente</h2>
-      <!-- lo llenamos en el siguiente paso -->
-    </section>
+  <h2>Abrir nuevo expediente</h2>
+
+  <form id="form-expediente">
+    <div>
+      <label>Nombre o alias de la persona *</label>
+      <input type="text" id="nombre" required>
+    </div>
+
+    <div>
+      <label>Descripción del asunto *</label>
+      <textarea id="descripcion" rows="3" required></textarea>
+    </div>
+
+    <div>
+      <label>Nombre del responsable *</label>
+      <input type="text" id="responsable" required>
+    </div>
+
+    <div>
+      <label>Categoría (opcional)</label>
+      <select id="categoria">
+        <option value="">-- Sin categoría --</option>
+        <option value="Civil">Civil</option>
+        <option value="Familiar">Familiar</option>
+        <option value="Laboral">Laboral</option>
+      </select>
+    </div>
+
+    <button type="submit">Abrir expediente</button>
+  </form>
+
+  <p id="mensaje" style="margin-top: 15px; font-weight: bold;"></p>
+</section>
 
     <!-- Aquí va el listado -->
     <section id="listado">
