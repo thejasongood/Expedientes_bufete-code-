@@ -1,7 +1,7 @@
 let expedientes = JSON.parse(localStorage.getItem("expedientes")) || [];
 let expedienteActual = null;
 
-// ========== CREAR EXPEDIENTE ==========
+// ========== CREAR ==========
 document.getElementById("form-expediente").addEventListener("submit", function(e) {
   e.preventDefault();
 
@@ -11,7 +11,7 @@ document.getElementById("form-expediente").addEventListener("submit", function(e
   const categoria = document.getElementById("categoria").value;
 
   if (!nombre || !descripcion || !responsable) {
-    mostrarMensaje("Todos los campos obligatorios deben llenarse.", "red");
+    mostrarMensaje("Completa todos los campos obligatorios.", "var(--rojo)");
     return;
   }
 
@@ -34,7 +34,7 @@ document.getElementById("form-expediente").addEventListener("submit", function(e
   expedientes.push(nuevo);
   localStorage.setItem("expedientes", JSON.stringify(expedientes));
 
-  mostrarMensaje("Expediente creado: " + nuevo.id, "green");
+  mostrarMensaje("Expediente creado correctamente: " + nuevo.id, "var(--verde)");
   document.getElementById("form-expediente").reset();
   mostrarExpedientes(expedientes);
 });
@@ -45,13 +45,13 @@ function mostrarMensaje(texto, color) {
   msg.style.color = color;
 }
 
-// ========== LISTADO Y BÚSQUEDA ==========
+// ========== LISTADO ==========
 function mostrarExpedientes(lista) {
   const contenedor = document.getElementById("lista-expedientes");
   contenedor.innerHTML = "";
 
   if (lista.length === 0) {
-    contenedor.innerHTML = "<p>No hay expedientes para mostrar.</p>";
+    contenedor.innerHTML = "<p style='color:#718096;'>No hay expedientes para mostrar.</p>";
     return;
   }
 
@@ -60,15 +60,18 @@ function mostrarExpedientes(lista) {
     div.className = "tarjeta";
 
     div.innerHTML = `
-      <strong>${exp.id}</strong> — ${exp.nombre}<br>
-      Responsable: ${exp.responsable}<br>
-      Estado: <b>${exp.estado}</b>
+      <div class="tarjeta-info">
+        <strong>${exp.id}</strong> — ${exp.nombre}<br>
+        <span style="font-size:0.85rem; color:#718096;">Responsable: ${exp.responsable}</span>
+        <div style="margin-top:6px;">
+          <span class="estado ${exp.estado}">${exp.estado}</span>
+        </div>
+      </div>
     `;
 
     const btn = document.createElement("button");
     btn.textContent = "Ver detalle";
-    btn.className = "btn-secundario";
-    btn.style.marginTop = "10px";
+    btn.className = "btn btn-secondary";
     btn.onclick = () => verDetalle(exp.id);
     div.appendChild(btn);
 
@@ -89,7 +92,7 @@ function buscarExpedientes() {
   );
 
   if (filtrados.length === 0) {
-    document.getElementById("lista-expedientes").innerHTML = "<p>No se encontraron resultados.</p>";
+    document.getElementById("lista-expedientes").innerHTML = "<p style='color:#718096;'>No se encontraron resultados.</p>";
   } else {
     mostrarExpedientes(filtrados);
   }
@@ -111,38 +114,44 @@ function verDetalle(id) {
 
   document.getElementById("info-detalle").innerHTML = `
     <p><strong>ID:</strong> ${expedienteActual.id}</p>
+    <p><strong>Estado:</strong> <span class="estado ${expedienteActual.estado}">${expedienteActual.estado}</span></p>
     <p><strong>Persona:</strong> ${expedienteActual.nombre}</p>
-    <p><strong>Asunto:</strong> ${expedienteActual.descripcion}</p>
     <p><strong>Responsable:</strong> ${expedienteActual.responsable}</p>
     <p><strong>Categoría:</strong> ${expedienteActual.categoria}</p>
-    <p><strong>Estado:</strong> <b>${expedienteActual.estado}</b></p>
     <p><strong>Apertura:</strong> ${expedienteActual.fechaApertura}</p>
+    <p style="grid-column: 1 / -1;"><strong>Asunto:</strong> ${expedienteActual.descripcion}</p>
   `;
 
   // Zona actividad
   const zonaAct = document.getElementById("zona-actividad");
   if (expedienteActual.estado === "Cerrado") {
-    zonaAct.innerHTML = "<p style='color:#c53030;'>Expediente cerrado. No se pueden agregar actividades.</p>";
+    zonaAct.innerHTML = `<p style="color:var(--rojo); font-size:0.9rem;">Expediente cerrado. No se pueden agregar actividades.</p>`;
   } else {
     zonaAct.innerHTML = `
       <textarea id="nueva-actividad" rows="2" placeholder="Descripción de la actividad..."></textarea>
-      <br><br>
-      <button onclick="agregarActividad()" class="btn-principal">Agregar actividad</button>
+      <div style="margin-top:10px;">
+        <button onclick="agregarActividad()" class="btn btn-primary">Agregar actividad</button>
+      </div>
     `;
   }
 
   // Zona estado
   const zonaEst = document.getElementById("zona-estado");
   if (expedienteActual.estado === "Abierto") {
-    zonaEst.innerHTML = `<button onclick="cambiarEstado('En seguimiento')" class="btn-principal">Pasar a En seguimiento</button>`;
+    zonaEst.innerHTML = `<button onclick="cambiarEstado('En seguimiento')" class="btn btn-primary">Pasar a En seguimiento</button>`;
   } else if (expedienteActual.estado === "En seguimiento") {
     zonaEst.innerHTML = `
-      <input type="text" id="motivo-cierre" placeholder="Motivo de cierre" style="max-width:280px; margin-bottom:10px;">
+      <input type="text" id="motivo-cierre" placeholder="Motivo de cierre" style="max-width:300px; margin-bottom:10px;">
       <br>
-      <button onclick="cerrarExpediente()" class="btn-principal">Cerrar expediente</button>
+      <button onclick="cerrarExpediente()" class="btn btn-primary">Cerrar expediente</button>
     `;
   } else {
-    zonaEst.innerHTML = "<p>Expediente cerrado. No se puede cambiar el estado.</p>";
+    // Cerrado → Reabrir
+    zonaEst.innerHTML = `
+      <input type="text" id="motivo-reabrir" placeholder="Motivo de reapertura" style="max-width:300px; margin-bottom:10px;">
+      <br>
+      <button onclick="reabrirExpediente()" class="btn btn-primary">Reabrir expediente</button>
+    `;
   }
 
   mostrarHistorial();
@@ -151,10 +160,15 @@ function verDetalle(id) {
 function mostrarHistorial() {
   const cont = document.getElementById("historial");
   cont.innerHTML = "";
-  expedienteActual.historial.forEach(item => {
-    const p = document.createElement("p");
-    p.innerHTML = `<small>${item.fecha}</small> — <b>${item.tipo.toUpperCase()}</b>: ${item.texto}`;
-    cont.appendChild(p);
+
+  [...expedienteActual.historial].reverse().forEach(item => {
+    const div = document.createElement("div");
+    div.className = "historial-item";
+    div.innerHTML = `
+      <span class="fecha">${item.fecha}</span><br>
+      <span class="tipo">${item.tipo.toUpperCase()}</span> ${item.texto}
+    `;
+    cont.appendChild(div);
   });
 }
 
@@ -207,6 +221,27 @@ function cerrarExpediente() {
   guardarYActualizar();
 }
 
+function reabrirExpediente() {
+  if (expedienteActual.estado !== "Cerrado") {
+    alert("Solo se pueden reabrir expedientes que estén Cerrados.");
+    return;
+  }
+
+  const motivo = document.getElementById("motivo-reabrir").value.trim();
+  if (!motivo) {
+    alert("Debes escribir un motivo de reapertura.");
+    return;
+  }
+
+  expedienteActual.estado = "En seguimiento";
+  expedienteActual.historial.push({
+    tipo: "estado",
+    texto: "Reabierto. Motivo: " + motivo,
+    fecha: new Date().toLocaleString("es-GT")
+  });
+  guardarYActualizar();
+}
+
 function guardarYActualizar() {
   const index = expedientes.findIndex(e => e.id === expedienteActual.id);
   expedientes[index] = expedienteActual;
@@ -221,5 +256,5 @@ function cerrarDetalle() {
   mostrarExpedientes(expedientes);
 }
 
-// Al cargar la página
+// Iniciar
 mostrarExpedientes(expedientes);

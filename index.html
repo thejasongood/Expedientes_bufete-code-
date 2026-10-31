@@ -3,80 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Expedientes - Bufete Popular</title>
+  <title>Expedientes | Bufete Popular</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>Bufete Popular</h1>
-    <p>Gestión de Expedientes</p>
-  </header>
-
-  <main>
-    <!-- CREAR EXPEDIENTE -->
-    <section id="crear-expediente">
-      <h2>Abrir nuevo expediente</h2>
-      <form id="form-expediente">
-        <div class="campo">
-          <label>Nombre o alias de la persona *</label>
-          <input type="text" id="nombre" required>
-        </div>
-        <div class="campo">
-          <label>Descripción del asunto *</label>
-          <textarea id="descripcion" rows="3" required></textarea>
-        </div>
-        <div class="campo">
-          <label>Nombre del responsable *</label>
-          <input type="text" id="responsable" required>
-        </div>
-        <div class="campo">
-          <label>Categoría (opcional)</label>
-          <select id="categoria">
-            <option value="">-- Sin categoría --</option>
-            <option value="Civil">Civil</option>
-            <option value="Familiar">Familiar</option>
-            <option value="Laboral">Laboral</option>
-          </select>
-        </div>
-        <button type="submit" class="btn-principal">Abrir expediente</button>
-      </form>
-      <p id="mensaje"></p>
-    </section>
-
-    <!-- LISTADO -->
-    <section id="listado">
-      <h2>Expedientes</h2>
-      <div class="busqueda">
-        <input type="text" id="buscar" placeholder="Buscar por ID o nombre...">
-        <button onclick="buscarExpedientes()" class="btn-secundario">Buscar</button>
-        <button onclick="mostrarTodos()" class="btn-secundario">Mostrar todos</button>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <h1>Bufete Popular</h1>
+        <span>Sistema de Expedientes</span>
       </div>
-      <div id="lista-expedientes"></div>
-    </section>
+    </header>
 
-    <!-- DETALLE -->
-    <section id="detalle" class="oculto">
-      <h2>Detalle del expediente</h2>
-      <div id="info-detalle"></div>
+    <main>
+      <!-- CREAR -->
+      <section id="crear-expediente" class="card">
+        <h2>Abrir nuevo expediente</h2>
+        <form id="form-expediente">
+          <div class="grid">
+            <div class="campo">
+              <label>Nombre o alias *</label>
+              <input type="text" id="nombre" placeholder="Ej. Juan Pérez" required>
+            </div>
+            <div class="campo">
+              <label>Responsable *</label>
+              <input type="text" id="responsable" placeholder="Nombre del abogado" required>
+            </div>
+          </div>
+          <div class="campo">
+            <label>Descripción del asunto *</label>
+            <textarea id="descripcion" rows="3" placeholder="Descripción breve del caso..." required></textarea>
+          </div>
+          <div class="campo">
+            <label>Categoría</label>
+            <select id="categoria">
+              <option value="">Sin categoría</option>
+              <option value="Civil">Civil</option>
+              <option value="Familiar">Familiar</option>
+              <option value="Laboral">Laboral</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Abrir expediente</button>
+        </form>
+        <p id="mensaje" class="mensaje"></p>
+      </section>
 
-      <div class="bloque">
-        <h3>Agregar actividad</h3>
-        <div id="zona-actividad"></div>
-      </div>
+      <!-- LISTADO -->
+      <section id="listado" class="card">
+        <div class="listado-header">
+          <h2>Expedientes</h2>
+          <div class="busqueda">
+            <input type="text" id="buscar" placeholder="Buscar por ID o nombre...">
+            <button onclick="buscarExpedientes()" class="btn btn-secondary">Buscar</button>
+            <button onclick="mostrarTodos()" class="btn btn-secondary">Todos</button>
+          </div>
+        </div>
+        <div id="lista-expedientes"></div>
+      </section>
 
-      <div class="bloque">
-        <h3>Cambiar estado</h3>
-        <div id="zona-estado"></div>
-      </div>
+      <!-- DETALLE -->
+      <section id="detalle" class="card oculto">
+        <div class="detalle-header">
+          <h2>Detalle del expediente</h2>
+          <button onclick="cerrarDetalle()" class="btn btn-secondary">← Volver</button>
+        </div>
 
-      <div class="bloque">
-        <h3>Historial</h3>
-        <div id="historial"></div>
-      </div>
+        <div id="info-detalle" class="info-grid"></div>
 
-      <button onclick="cerrarDetalle()" class="btn-secundario">← Volver al listado</button>
-    </section>
-  </main>
+        <div class="seccion">
+          <h3>Agregar actividad</h3>
+          <div id="zona-actividad"></div>
+        </div>
+
+        <div class="seccion">
+          <h3>Estado del expediente</h3>
+          <div id="zona-estado"></div>
+        </div>
+
+        <div class="seccion">
+          <h3>Historial</h3>
+          <div id="historial" class="historial"></div>
+        </div>
+      </section>
+    </main>
+  </div>
 
   <script src="app.js"></script>
 </body>
