@@ -49,10 +49,10 @@ Personal del Bufete Popular (abogados, asistentes o coordinadores) que necesitan
 | Integrante     | Responsabilidad principal                          | Cómo integra su trabajo |
 |----------------|----------------------------------------------------|-------------------------|
 | Coordinador (yo) | README, integración final, commits y revisión general | Revisa y une el código de todos |
-| Persona 2      | Interfaz (HTML + CSS)                              | Entrega pantallas limpias |
-| Persona 3      | Crear expedientes + validaciones                   | Función de apertura lista |
-| Persona 4      | Actividades + cambios de estado + historial        | Lógica de seguimiento y cierre |
-| Persona 5      | localStorage + búsqueda                            | Que se guarde y se pueda buscar |
+| Abdiel López     | Interfaz (HTML + CSS)                              | Entrega pantallas limpias |
+| Jostin Gonzales  | Crear expedientes + validaciones                   | Función de apertura lista |
+| Emir Monterroso  | Actividades + cambios de estado + historial        | Lógica de seguimiento y cierre |
+| José lucdro      | localStorage + búsqueda                            | Que se guarde y se pueda buscar |
 
 **Forma de trabajar:**  
 Cada quien hace su parte en su rama o archivo. El coordinador integra todo y hace los commits principales. Nos comunicamos por WhatsApp/Discord para no pisarnos el código.
