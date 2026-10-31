@@ -58,7 +58,32 @@
     <button onclick="buscarExpedientes()">Buscar</button>
     <button onclick="mostrarTodos()">Mostrar todos</button>
   </div>
+  <section id="detalle" style="display: none;">
+  <h2>Detalle del expediente</h2>
+  <div id="info-detalle"></div>
 
+  <hr style="margin: 20px 0;">
+
+  <h3>Agregar actividad</h3>
+  <div id="zona-actividad">
+    <textarea id="nueva-actividad" rows="2" placeholder="Descripción de la actividad" style="width: 100%;"></textarea>
+    <br><br>
+    <button onclick="agregarActividad()">Agregar actividad</button>
+  </div>
+
+  <hr style="margin: 20px 0;">
+
+  <h3>Cambiar estado</h3>
+  <div id="zona-estado"></div>
+
+  <hr style="margin: 20px 0;">
+
+  <h3>Historial</h3>
+  <div id="historial"></div>
+
+  <br>
+  <button onclick="cerrarDetalle()">Volver al listado</button>
+</section>
   <div id="lista-expedientes">
     <!-- Aquí se van a mostrar los expedientes -->
   </div>
