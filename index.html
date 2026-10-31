@@ -51,9 +51,18 @@
 
     <!-- Aquí va el listado -->
     <section id="listado">
-      <h2>Expedientes</h2>
-      <!-- lo llenamos después -->
-    </section>
+  <h2>Expedientes</h2>
+
+  <div style="margin-bottom: 15px;">
+    <input type="text" id="buscar" placeholder="Buscar por ID o nombre..." style="padding: 8px; width: 250px;">
+    <button onclick="buscarExpedientes()">Buscar</button>
+    <button onclick="mostrarTodos()">Mostrar todos</button>
+  </div>
+
+  <div id="lista-expedientes">
+    <!-- Aquí se van a mostrar los expedientes -->
+  </div>
+</section>
   </main>
 
   <script src="app.js"></script>

@@ -45,3 +45,67 @@ document.getElementById("form-expediente").addEventListener("submit", function(e
   // Limpiar formulario
   document.getElementById("form-expediente").reset();
 });
+// ======================
+// LISTADO Y BÚSQUEDA
+// ======================
+
+function mostrarExpedientes(lista) {
+  const contenedor = document.getElementById("lista-expedientes");
+  contenedor.innerHTML = "";
+
+  if (lista.length === 0) {
+    contenedor.innerHTML = "<p>No hay expedientes para mostrar.</p>";
+    return;
+  }
+
+  lista.forEach(exp => {
+    const div = document.createElement("div");
+    div.style.border = "1px solid #ddd";
+    div.style.padding = "12px";
+    div.style.marginBottom = "10px";
+    div.style.borderRadius = "6px";
+    div.style.background = "#fafafa";
+
+    div.innerHTML = `
+      <strong>${exp.id}</strong> - ${exp.nombre}<br>
+      Responsable: ${exp.responsable}<br>
+      Estado: <b>${exp.estado}</b><br>
+      <button onclick="verDetalle('${exp.id}')">Ver detalle</button>
+    `;
+
+    contenedor.appendChild(div);
+  });
+}
+
+function buscarExpedientes() {
+  const texto = document.getElementById("buscar").value.trim().toLowerCase();
+
+  if (!texto) {
+    mostrarExpedientes(expedientes);
+    return;
+  }
+
+  const filtrados = expedientes.filter(exp => 
+    exp.id.toLowerCase().includes(texto) || 
+    exp.nombre.toLowerCase().includes(texto)
+  );
+
+  if (filtrados.length === 0) {
+    document.getElementById("lista-expedientes").innerHTML = "<p>No se encontraron resultados.</p>";
+  } else {
+    mostrarExpedientes(filtrados);
+  }
+}
+
+function mostrarTodos() {
+  document.getElementById("buscar").value = "";
+  mostrarExpedientes(expedientes);
+}
+
+// Función temporal (la completamos después)
+function verDetalle(id) {
+  alert("Detalle del expediente: " + id + "\n(Lo terminamos en el siguiente paso)");
+}
+
+// Mostrar los expedientes al cargar la página
+mostrarExpedientes(expedientes);
