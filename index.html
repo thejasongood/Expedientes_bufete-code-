@@ -13,81 +13,69 @@
   </header>
 
   <main>
-    <!-- Aquí va a ir el formulario de crear expediente -->
+    <!-- CREAR EXPEDIENTE -->
     <section id="crear-expediente">
-  <h2>Abrir nuevo expediente</h2>
+      <h2>Abrir nuevo expediente</h2>
+      <form id="form-expediente">
+        <div class="campo">
+          <label>Nombre o alias de la persona *</label>
+          <input type="text" id="nombre" required>
+        </div>
+        <div class="campo">
+          <label>Descripción del asunto *</label>
+          <textarea id="descripcion" rows="3" required></textarea>
+        </div>
+        <div class="campo">
+          <label>Nombre del responsable *</label>
+          <input type="text" id="responsable" required>
+        </div>
+        <div class="campo">
+          <label>Categoría (opcional)</label>
+          <select id="categoria">
+            <option value="">-- Sin categoría --</option>
+            <option value="Civil">Civil</option>
+            <option value="Familiar">Familiar</option>
+            <option value="Laboral">Laboral</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-principal">Abrir expediente</button>
+      </form>
+      <p id="mensaje"></p>
+    </section>
 
-  <form id="form-expediente">
-    <div>
-      <label>Nombre o alias de la persona *</label>
-      <input type="text" id="nombre" required>
-    </div>
-
-    <div>
-      <label>Descripción del asunto *</label>
-      <textarea id="descripcion" rows="3" required></textarea>
-    </div>
-
-    <div>
-      <label>Nombre del responsable *</label>
-      <input type="text" id="responsable" required>
-    </div>
-
-    <div>
-      <label>Categoría (opcional)</label>
-      <select id="categoria">
-        <option value="">-- Sin categoría --</option>
-        <option value="Civil">Civil</option>
-        <option value="Familiar">Familiar</option>
-        <option value="Laboral">Laboral</option>
-      </select>
-    </div>
-
-    <button type="submit">Abrir expediente</button>
-  </form>
-
-  <p id="mensaje" style="margin-top: 15px; font-weight: bold;"></p>
-</section>
-
-    <!-- Aquí va el listado -->
+    <!-- LISTADO -->
     <section id="listado">
-  <h2>Expedientes</h2>
+      <h2>Expedientes</h2>
+      <div class="busqueda">
+        <input type="text" id="buscar" placeholder="Buscar por ID o nombre...">
+        <button onclick="buscarExpedientes()" class="btn-secundario">Buscar</button>
+        <button onclick="mostrarTodos()" class="btn-secundario">Mostrar todos</button>
+      </div>
+      <div id="lista-expedientes"></div>
+    </section>
 
-  <div style="margin-bottom: 15px;">
-    <input type="text" id="buscar" placeholder="Buscar por ID o nombre..." style="padding: 8px; width: 250px;">
-    <button onclick="buscarExpedientes()">Buscar</button>
-    <button onclick="mostrarTodos()">Mostrar todos</button>
-  </div>
-  <section id="detalle" style="display: none;">
-  <h2>Detalle del expediente</h2>
-  <div id="info-detalle"></div>
+    <!-- DETALLE -->
+    <section id="detalle" class="oculto">
+      <h2>Detalle del expediente</h2>
+      <div id="info-detalle"></div>
 
-  <hr style="margin: 20px 0;">
+      <div class="bloque">
+        <h3>Agregar actividad</h3>
+        <div id="zona-actividad"></div>
+      </div>
 
-  <h3>Agregar actividad</h3>
-  <div id="zona-actividad">
-    <textarea id="nueva-actividad" rows="2" placeholder="Descripción de la actividad" style="width: 100%;"></textarea>
-    <br><br>
-    <button onclick="agregarActividad()">Agregar actividad</button>
-  </div>
+      <div class="bloque">
+        <h3>Cambiar estado</h3>
+        <div id="zona-estado"></div>
+      </div>
 
-  <hr style="margin: 20px 0;">
+      <div class="bloque">
+        <h3>Historial</h3>
+        <div id="historial"></div>
+      </div>
 
-  <h3>Cambiar estado</h3>
-  <div id="zona-estado"></div>
-
-  <hr style="margin: 20px 0;">
-
-  <h3>Historial</h3>
-  <div id="historial"></div>
-
-  <br>
-  <button onclick="cerrarDetalle()">Volver al listado</button>
-</section>
-  <div id="lista-expedientes">
-    <!-- Aquí se van a mostrar los expedientes -->
-  </div>
-</section>
+      <button onclick="cerrarDetalle()" class="btn-secundario">← Volver al listado</button>
+    </section>
   </main>
 
   <script src="app.js"></script>
